@@ -15,7 +15,12 @@ def main():
 		print("main() - ", element)
 
 	for element in noteList:
-		print("main() - halfStep(%s) -> %s" %(element, element.wholeStep()))
+		print("main() - halfStep(%s) -> %s" %(element, element.halfStep(1)))
+
+	print("main() - Done with steps")
+
+	print("main() - C major scale = %s" %(Note("C").majorScale()))
+
 
 
 
