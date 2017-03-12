@@ -112,7 +112,9 @@ class Note(object):
 
     @staticmethod
     def _validateNote(noteSearch):
-
+        """
+        Validates a note according to the notation <note><sharp?><octave?>
+        """
         if noteSearch:
             # Note matches the correct notation
             if noteSearch.group(2) == "#":
@@ -126,34 +128,160 @@ class Note(object):
 
         return True
 
+    @staticmethod
+    def _validateInterval(intervalSearch):
+        """
+        Validates a note according to the notation <number><perfect, minor or major>
+        """
+        if intervalSearch:
+            #Interval matches the correct notation
+            if intervalSearch.group(1) == "1" or intervalSearch.group(1) == "4" or intervalSearch.group(1) == "5" or intervalSearch.group(1) == "8":
+                #Perfect intervals
+                if intervalSearch.group(2) == "p":
+                    return True
+                else:
+                    return False
+            else:
+                #Minor or major intervals
+                if intervalSearch.group(2) == "m" or intervalSearch.group(2) == "M":
+                    return True
+                else:
+                    return False
+        else:
+            return False
+
     # -----------------------------------------------------------------------------------------PUBLIC FUNCTIONS
     def halfStep(self, stepCount: int):
         """Takes a half step from self._note"""
+        if self._note == "G#":
+            self._octave += 1
         return self._findNoteByIndex(self._index + stepCount * 1)
 
     def wholeStep(self, stepCount: int):
         """Takes a whole step from self._note"""
+        if self._note == "G":
+            self._octave += 1
         return self._findNoteByIndex(self._index + stepCount * 2)
 
-    def majorScale(self):
+    def primitiveMajorScale(self):
         """
-		Returns a list containing the major scale of self._note
+		Returns a list containing the primitive major scale of self._note
 		I   II   III     IV   V   VI   VII     VIII
 		  1    1     1/2    1   1    1     1/2
 		"""
-        majorScale = []
+        majorScale = [self._note]
 
-        for count in range(0, 8):
-            if count == 2 or count == 6:
-                majorScale.append(self.halfStep(count))
-                print("1Adicionando a escala -> ", self.halfStep(count), " Count = ", count)
+        for count in range(1, 8):
+            if count == 3 or count == 7:
+                #Takes a halfstep from the last element
+                majorScale.append(Note(majorScale[len(majorScale)-1]).halfStep(1))
             else:
-                majorScale.append(self.wholeStep(count))
-                print("2Adicionando a escala -> ", self.wholeStep(count), " Count = ", count)
+                #Takes a wholestep from the last element
+                majorScale.append(Note(majorScale[len(majorScale)-1]).wholeStep(1))
 
         return majorScale
 
+    def harmonicMajorScale(self):
+        """
+        Returns a list containing the harmonic major scale of self._note
+        I   II   III     IV   V   VI     VII     VIII
+          1    1     1/2    1   1    1/2     1/2
+        """
+        majorScale = [self._note]
 
+        for count in range(1, 8):
+            if count == 3 or count == 6 or count == 7:
+                # Takes a halfstep from the last element
+                majorScale.append(Note(majorScale[len(majorScale) - 1]).halfStep(1))
+            else:
+                # Takes a wholestep from the last element
+                majorScale.append(Note(majorScale[len(majorScale) - 1]).wholeStep(1))
+
+        return majorScale
+
+    def primitiveMinorScale(self):
+        """
+        Returns a list containing the primitive minor scale of self._note
+        I   II     III   IV   V     VI   VII   VIII
+          1    1/2     1    1   1/2    1     1
+        """
+        minorScale = [self._note]
+
+        for count in range(1, 8):
+            if count == 2 or count == 5:
+                # Takes a halfstep from the last element
+                minorScale.append(Note(minorScale[len(minorScale) - 1]).halfStep(1))
+            else:
+                # Takes a wholestep from the last element
+                minorScale.append(Note(minorScale[len(minorScale) - 1]).wholeStep(1))
+
+        return minorScale
+
+    def harmonicMinorScale(self):
+        """
+        Returns a list containing the harmonic minor scale of self._note
+        I   II     III   IV   V     VI     VII     VIII
+          1    1/2     1    1   1/2    3/2     1/2
+        """
+        minorScale = [self._note]
+
+        for count in range(1, 8):
+            if count == 2 or count == 5 or count == 7:
+                # Takes a halfstep from the last element
+                minorScale.append(Note(minorScale[len(minorScale) - 1]).halfStep(1))
+            elif count == 6:
+                #Taies 3 halfsteps from the last element
+                minorScale.append(Note(minorScale[len(minorScale) - 1]).halfStep(3))
+            else:
+                # Takes a wholestep from the last element
+                minorScale.append(Note(minorScale[len(minorScale) - 1]).wholeStep(1))
+
+        return minorScale
+
+    def interval(self, interval:str):
+        """
+        Returns the note resulting from taking an interval from self._note
+        """
+        # Choecks notation of the interval
+        intervalSearch= re.search("^([1-8])([pmM])$", interval)
+        if self._validateInterval(intervalSearch):
+            #Interval matches the correct notation
+            if intervalSearch.group(1) == "1":
+                #0t 0st
+                return self._note
+            elif intervalSearch.group(1) == "2":
+                # 0t 1st or 1t 0st
+                if intervalSearch.group(2) == "m":
+                    return self.halfStep(1)
+                elif intervalSearch.group(3) == "M":
+                    return self.halfStep(2)
+            elif intervalSearch.group(1) == "3":
+                # 1t 1st or 2t 0st
+                if intervalSearch.group(2) == "m":
+                    return self.halfStep(3)
+                elif intervalSearch.group(3) == "M":
+                    return self.halfStep(4)
+            elif intervalSearch.group(1) == "4":
+                # 2t 1st
+                return self.halfStep(5)
+            elif intervalSearch.group(1) == "5":
+                # 3t 1st
+                return self.halfStep(7)
+            elif intervalSearch.group(1) == "6":
+                # 3t 2st or 4t 1st
+                if intervalSearch.group(2) == "m":
+                    return self.halfStep(8)
+                elif intervalSearch.group(3) == "M":
+                    return self.halfStep(9)
+            elif intervalSearch.group(1) == "7":
+                # 4t 2st or 5t 1st
+                if intervalSearch.group(2) == "m":
+                    return self.halfStep(10)
+                elif intervalSearch.group(3) == "M":
+                    return self.halfStep(11)
+            elif intervalSearch.group(1) == "8":
+                # 5t 2st
+                return self.halfStep(12)
 
     #-----------------------------------------------------------------------------------------GETTERS & SETTERS
     @property

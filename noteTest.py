@@ -9,17 +9,39 @@ def main():
 	for element in chromaticScale:
 		noteList.append(Note(element))
 
-	noteList.append(Note("B"))
+	scalesFile = open("primitiveMajorScales.txt", "w")
 
-	for element in noteList:
-		print("main() - ", element)
+	scalesFile.write("HARMONIC MAJOR SCALE\n")
 
-	for element in noteList:
-		print("main() - halfStep(%s) -> %s" %(element, element.halfStep(1)))
+	#HARMONIC MAJOR
+	for note in noteList:
 
-	print("main() - Done with steps")
+		majorScaleIter = note.harmonicMajorScale()
+		scalesFile.write("\n%s -> " % note)
+		for element in majorScaleIter:
+			scalesFile.write("%s, " % element)
 
-	print("main() - C major scale = %s" %(Note("C").majorScale()))
+	scalesFile.write("PRIMITIVE MINOR SCALE\n")
+
+	#PRIMITIVE MINOR
+	for note in noteList:
+
+		majorScaleIter = note.primitiveMinorScale()
+		scalesFile.write("\n%s -> " % note)
+		for element in majorScaleIter:
+			scalesFile.write("%s, " % element)
+
+	scalesFile.write("HARMONIC MAJOR SCALE\n")
+
+	#HARMONIC MINOR
+	for note in noteList:
+
+		majorScaleIter = note.harmonicMinorScale()
+		scalesFile.write("\n%s -> " % note)
+		for element in majorScaleIter:
+			scalesFile.write("%s, " % element)
+
+
 
 
 
