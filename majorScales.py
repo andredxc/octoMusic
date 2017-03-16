@@ -17,7 +17,7 @@ def createMajor(note):
 
 	"""
 
-	if not(type(note) == string):
+	if not(type(note) == str):
 
 		print("%s is not a string" %note)
 		return false
@@ -31,7 +31,7 @@ def createMajor(note):
 			noteIndex = index
 
 	majorScale.append(chromaticScale[index])
-	majorScale.appen(chromaticScale[index + ])
+	majorScale.append(chromaticScale[index + ])
 		
 
 

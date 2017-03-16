@@ -11,35 +11,34 @@ def main():
 
 	scalesFile = open("primitiveMajorScales.txt", "w")
 
-	scalesFile.write("HARMONIC MAJOR SCALE\n")
+	scalesFile.write("INTERVALS\n")
 
-	#HARMONIC MAJOR
-	for note in noteList:
+	noteC = Note("C")
 
-		majorScaleIter = note.harmonicMajorScale()
-		scalesFile.write("\n%s -> " % note)
-		for element in majorScaleIter:
-			scalesFile.write("%s, " % element)
+	scalesFile.write("%s -> \n" %noteC)
+	scalesFile.write("1j: %s\n" %noteC.interval("1j"))
+	scalesFile.write("2m: %s - 2M: %s\n" %(noteC.interval("2m"), noteC.interval("2M")))
+	scalesFile.write("3m: %s - 3M: %s\n" % (noteC.interval("3m"), noteC.interval("3M")))
+	scalesFile.write("4j: %s\n" % noteC.interval("4j"))
+	scalesFile.write("5j: %s\n" % noteC.interval("5j"))
+	scalesFile.write("6m: %s - 6M: %s\n" % (noteC.interval("6m"), noteC.interval("6M")))
+	scalesFile.write("7m: %s - 7M: %s\n" % (noteC.interval("7m"), noteC.interval("7M")))
+	scalesFile.write("8j: %s\n" % noteC.interval("8j"))
 
-	scalesFile.write("PRIMITIVE MINOR SCALE\n")
 
-	#PRIMITIVE MINOR
-	for note in noteList:
+	noteG = Note("G")
 
-		majorScaleIter = note.primitiveMinorScale()
-		scalesFile.write("\n%s -> " % note)
-		for element in majorScaleIter:
-			scalesFile.write("%s, " % element)
+	scalesFile.write("%s -> \n" %noteG)
+	scalesFile.write("1j: %s\n" %noteG.interval("1j"))
+	scalesFile.write("2m: %s - 2M: %s\n" %(noteG.interval("2m"), noteG.interval("2M")))
+	scalesFile.write("3m: %s - 3M: %s\n" % (noteG.interval("3m"), noteG.interval("3M")))
+	scalesFile.write("4j: %s\n" % noteG.interval("4j"))
+	scalesFile.write("5j: %s\n" % noteG.interval("5j"))
+	scalesFile.write("6m: %s - 6M: %s\n" % (noteG.interval("6m"), noteG.interval("6M")))
+	scalesFile.write("7m: %s - 7M: %s\n" % (noteG.interval("7m"), noteG.interval("7M")))
+	scalesFile.write("8j: %s\n" % noteG.interval("8j"))
 
-	scalesFile.write("HARMONIC MAJOR SCALE\n")
 
-	#HARMONIC MINOR
-	for note in noteList:
-
-		majorScaleIter = note.harmonicMinorScale()
-		scalesFile.write("\n%s -> " % note)
-		for element in majorScaleIter:
-			scalesFile.write("%s, " % element)
 
 
 
