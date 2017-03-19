@@ -14,7 +14,7 @@ class Note(object):
     # -----------------------------------------------------------------------------------------PRIVATE FUNCTIONS
     def __init__(self, note: str):
 
-        # Choecks notation of notes
+        # Checks notation of notes
         noteSearch = re.search("^([a-gA-G)])(#)?([1-8])?$", note)
 
         if self._validateNote(noteSearch):
@@ -47,7 +47,12 @@ class Note(object):
 
     def __repr__(self):
 
-        return "Note %s, Index %d, Octave %d" % (self._note, self._index, self._octave)
+        # return "Note %s, Index %d, Octave %d" % (self._note, self._index, self._octave)
+        return "%s%d" %(self._note, self._octave)
+
+    def __eq__(self, other):
+
+        return (self._note == other._note) and (self._index == other._index) and (self._octave == other._octave)
 
     def _setIndex(self):
 
@@ -295,6 +300,5 @@ class Note(object):
 TODO: 
 	
 	- Create @note.setter
-	- Integration with GitHub
 
 """

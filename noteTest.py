@@ -1,4 +1,5 @@
 from classNote import Note
+from classChord import Chord
 
 
 def main():
@@ -9,34 +10,19 @@ def main():
 	for element in chromaticScale:
 		noteList.append(Note(element))
 
-	scalesFile = open("primitiveMajorScales.txt", "w")
-
-	scalesFile.write("INTERVALS\n")
-
 	noteC = Note("C")
-
-	scalesFile.write("%s -> \n" %noteC)
-	scalesFile.write("1j: %s\n" %noteC.interval("1j"))
-	scalesFile.write("2m: %s - 2M: %s\n" %(noteC.interval("2m"), noteC.interval("2M")))
-	scalesFile.write("3m: %s - 3M: %s\n" % (noteC.interval("3m"), noteC.interval("3M")))
-	scalesFile.write("4j: %s\n" % noteC.interval("4j"))
-	scalesFile.write("5j: %s\n" % noteC.interval("5j"))
-	scalesFile.write("6m: %s - 6M: %s\n" % (noteC.interval("6m"), noteC.interval("6M")))
-	scalesFile.write("7m: %s - 7M: %s\n" % (noteC.interval("7m"), noteC.interval("7M")))
-	scalesFile.write("8j: %s\n" % noteC.interval("8j"))
-
-
 	noteG = Note("G")
+	noteE = Note("E")
 
-	scalesFile.write("%s -> \n" %noteG)
-	scalesFile.write("1j: %s\n" %noteG.interval("1j"))
-	scalesFile.write("2m: %s - 2M: %s\n" %(noteG.interval("2m"), noteG.interval("2M")))
-	scalesFile.write("3m: %s - 3M: %s\n" % (noteG.interval("3m"), noteG.interval("3M")))
-	scalesFile.write("4j: %s\n" % noteG.interval("4j"))
-	scalesFile.write("5j: %s\n" % noteG.interval("5j"))
-	scalesFile.write("6m: %s - 6M: %s\n" % (noteG.interval("6m"), noteG.interval("6M")))
-	scalesFile.write("7m: %s - 7M: %s\n" % (noteG.interval("7m"), noteG.interval("7M")))
-	scalesFile.write("8j: %s\n" % noteG.interval("8j"))
+	testChord = Chord(noteC)
+	print("1 chord: ", testChord)
+
+	testChord.addNote(noteG)
+	print("2 chord: ", testChord)
+	testChord.addNote(noteE)
+	print("3 chord: ", testChord)
+	testChord.removeNote("E")
+	print("4 chord: ", testChord)
 
 
 
