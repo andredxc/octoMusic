@@ -14,7 +14,7 @@ class Note(object):
     # -----------------------------------------------------------------------------------------PRIVATE FUNCTIONS
     def __init__(self, note: str):
 
-        # Choecks notation of notes
+        # Choecks syntax of the note
         noteSearch = re.search("^([a-gA-G)])(#)?([1-8])?$", note)
 
         if self._validateNote(noteSearch):
@@ -23,7 +23,6 @@ class Note(object):
                 # Sharp note
                 self._note = noteSearch.group(1).upper() + noteSearch.group(2)
             else:
-                # Flat note
                 self._note = noteSearch.group(1).upper()
 
             # Finds the matching index
@@ -74,6 +73,53 @@ class Note(object):
             self._index = index + 8
         elif self._note[0].upper() == "G":
             self._index = index + 10
+
+    @staticmethod
+    def _intervalValue(self, interval:string):
+
+        """
+        Determines the number of semitones in a given interval
+        """
+        # Checks notation of the interval
+        intervalSearch = re.search("^([1-8])([pmM])$", interval)
+        if self._validateInterval(intervalSearch):
+            #Interval matches the correct notation
+            if intervalSearch.group(1) == "1":
+                #0t 0st
+                return 0
+            elif intervalSearch.group(1) == "2":
+                # 0t 1st or 1t 0st
+                if intervalSearch.group(2) == "m":
+                    return 1
+                elif intervalSearch.group(3) == "M":
+                    return 2
+            elif intervalSearch.group(1) == "3":
+                # 1t 1st or 2t 0st
+                if intervalSearch.group(2) == "m":
+                    return 3
+                elif intervalSearch.group(3) == "M":
+                    return 4
+            elif intervalSearch.group(1) == "4":
+                # 2t 1st
+                return 5
+            elif intervalSearch.group(1) == "5":
+                # 3t 1st
+                return 7
+            elif intervalSearch.group(1) == "6":
+                # 3t 2st or 4t 1st
+                if intervalSearch.group(2) == "m":
+                    return 8
+                elif intervalSearch.group(3) == "M":
+                    return 9
+            elif intervalSearch.group(1) == "7":
+                # 5t 0st or 5t 1st
+                if intervalSearch.group(2) == "m":
+                    return 10
+                elif intervalSearch.group(3) == "M":
+                    return 11
+            elif intervalSearch.group(1) == "8":
+                # 5t 2st
+                return 12
 
     @staticmethod
     def _findNoteByIndex(index: int):
@@ -290,8 +336,8 @@ class Note(object):
 
 
 """
-TODO: 
-	
+TODO:
+
 	- Create @note.setter
 	- Integration with GitHub
 

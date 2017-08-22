@@ -11,35 +11,11 @@ def main():
 
 	scalesFile = open("primitiveMajorScales.txt", "w")
 
-	scalesFile.write("HARMONIC MAJOR SCALE\n")
+	scalesFile.write("INTERVALS\n")
 
-	#HARMONIC MAJOR
-	for note in noteList:
+	for element in noteList:
+		scalesFile.write("%s 1p -> %s\n" %())
 
-		majorScaleIter = note.harmonicMajorScale()
-		scalesFile.write("\n%s -> " % note)
-		for element in majorScaleIter:
-			scalesFile.write("%s, " % element)
-
-	scalesFile.write("PRIMITIVE MINOR SCALE\n")
-
-	#PRIMITIVE MINOR
-	for note in noteList:
-
-		majorScaleIter = note.primitiveMinorScale()
-		scalesFile.write("\n%s -> " % note)
-		for element in majorScaleIter:
-			scalesFile.write("%s, " % element)
-
-	scalesFile.write("HARMONIC MAJOR SCALE\n")
-
-	#HARMONIC MINOR
-	for note in noteList:
-
-		majorScaleIter = note.harmonicMinorScale()
-		scalesFile.write("\n%s -> " % note)
-		for element in majorScaleIter:
-			scalesFile.write("%s, " % element)
 
 
 
