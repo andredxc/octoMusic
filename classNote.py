@@ -14,7 +14,11 @@ class Note(object):
     # -----------------------------------------------------------------------------------------PRIVATE FUNCTIONS
     def __init__(self, note: str):
 
+<<<<<<< HEAD
         # Choecks syntax of the note
+=======
+        # Checks notation of notes
+>>>>>>> 751acaa36c5b9a5e3cdb1993ff8560d8df4ba418
         noteSearch = re.search("^([a-gA-G)])(#)?([1-8])?$", note)
 
         if self._validateNote(noteSearch):
@@ -46,7 +50,12 @@ class Note(object):
 
     def __repr__(self):
 
-        return "Note %s, Index %d, Octave %d" % (self._note, self._index, self._octave)
+        # return "Note %s, Index %d, Octave %d" % (self._note, self._index, self._octave)
+        return "%s%d" %(self._note, self._octave)
+
+    def __eq__(self, other):
+
+        return (self._note == other._note) and (self._index == other._index) and (self._octave == other._octave)
 
     def _setIndex(self):
 
@@ -183,7 +192,7 @@ class Note(object):
             #Interval matches the correct notation
             if intervalSearch.group(1) == "1" or intervalSearch.group(1) == "4" or intervalSearch.group(1) == "5" or intervalSearch.group(1) == "8":
                 #Perfect intervals
-                if intervalSearch.group(2) == "p":
+                if intervalSearch.group(2) == "p" or intervalSearch.group(2) == "j":
                     return True
                 else:
                     return False
@@ -289,7 +298,7 @@ class Note(object):
         Returns the note resulting from taking an interval from self._note
         """
         # Choecks notation of the interval
-        intervalSearch= re.search("^([1-8])([pmM])$", interval)
+        intervalSearch= re.search("^([1-8])([pjmM])$", interval)
         if self._validateInterval(intervalSearch):
             #Interval matches the correct notation
             if intervalSearch.group(1) == "1":
@@ -299,13 +308,13 @@ class Note(object):
                 # 0t 1st or 1t 0st
                 if intervalSearch.group(2) == "m":
                     return self.halfStep(1)
-                elif intervalSearch.group(3) == "M":
+                elif intervalSearch.group(2) == "M":
                     return self.halfStep(2)
             elif intervalSearch.group(1) == "3":
                 # 1t 1st or 2t 0st
                 if intervalSearch.group(2) == "m":
                     return self.halfStep(3)
-                elif intervalSearch.group(3) == "M":
+                elif intervalSearch.group(2) == "M":
                     return self.halfStep(4)
             elif intervalSearch.group(1) == "4":
                 # 2t 1st
@@ -317,17 +326,19 @@ class Note(object):
                 # 3t 2st or 4t 1st
                 if intervalSearch.group(2) == "m":
                     return self.halfStep(8)
-                elif intervalSearch.group(3) == "M":
+                elif intervalSearch.group(2) == "M":
                     return self.halfStep(9)
             elif intervalSearch.group(1) == "7":
                 # 4t 2st or 5t 1st
                 if intervalSearch.group(2) == "m":
                     return self.halfStep(10)
-                elif intervalSearch.group(3) == "M":
+                elif intervalSearch.group(2) == "M":
                     return self.halfStep(11)
             elif intervalSearch.group(1) == "8":
                 # 5t 2st
                 return self.halfStep(12)
+        else:
+            print("INVALID INTERVAL \"%s\"" %interval)
 
     #-----------------------------------------------------------------------------------------GETTERS & SETTERS
     @property
@@ -339,6 +350,5 @@ class Note(object):
 TODO:
 
 	- Create @note.setter
-	- Integration with GitHub
 
 """
